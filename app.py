@@ -477,7 +477,6 @@ if st.session_state.fase == 3:
             st.warning("⚠️ Error del sistema. Reintenta.")
         else:
             if solucion in r.upper():
-                st.success("Proceso completado")
                 st.session_state.fase = 4
             else:
                 st.error("Incorrecto")
