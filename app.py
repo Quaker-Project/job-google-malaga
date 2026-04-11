@@ -1,0 +1,586 @@
+import streamlit as st
+import random
+import time
+import base64
+
+import requests
+
+def guardar_datos(data):
+    url = "https://script.google.com/macros/s/AKfycbxBKkY6rfPJepvt0P2ZiATu4z4qXt6w_F2NB354E-Zc6mai2RLRH5sH-novokU3iNmiGA/exec"
+    try:
+        requests.post(url, json=data)
+    except:
+        pass
+
+st.set_page_config(page_title="Proceso de selección", layout="centered")
+
+st.title("💻 Google Málaga — Proceso de selección")
+
+# -----------------------------
+# ESTADO
+# -----------------------------
+if "fase" not in st.session_state:
+    st.session_state.fase = 0
+    st.session_state.start = None
+    st.session_state.pistas_usadas = 0
+
+if "perfil" not in st.session_state:
+    st.session_state.perfil = random.choice(["A","B","C","D"])
+
+perfil = st.session_state.perfil
+
+if "subperfil_D" not in st.session_state:
+    if perfil == "D":
+        st.session_state.subperfil_D = random.choice(["facil","dificil"])
+    else:
+        st.session_state.subperfil_D = None
+
+if "trampas" not in st.session_state:
+    st.session_state.trampas = 0
+
+if "guardado" not in st.session_state:
+    st.session_state.guardado = False
+
+# -----------------------------
+# FUNCIONES
+# -----------------------------
+def tiempo():
+    tiempos = {"A":1800,"B":1500,"C":1200,"D":900}
+    restante = int(tiempos[perfil] - (time.time() - st.session_state.start))
+
+    minutos = restante // 60
+    segundos = restante % 60
+
+    st.markdown(f"⏱️ **Tiempo restante: {minutos:02d}:{segundos:02d}**")
+
+    if restante <= 0:
+        st.error("Tiempo agotado")
+        st.stop()
+
+def abandonar():
+    if st.button("❌ Abandonar proceso", key=f"abandonar_{st.session_state.fase}"):
+
+        guardar_datos({
+            "id": st.session_state.get("nombre", "anonimo"),
+            "perfil": perfil,
+            "fase": st.session_state.fase,
+            "trampas": st.session_state.get("trampas", 0),
+            "pistas": st.session_state.get("pistas_usadas", 0),
+            "resultado": "abandono"
+        })
+
+        st.error("Has abandonado el proceso")
+        st.stop()
+
+def reproducir_audio_auto(ruta):
+    try:
+        with open(ruta, "rb") as f:
+            audio_bytes = f.read()
+
+        b64 = base64.b64encode(audio_bytes).decode()
+
+        audio_html = f"""
+        <audio autoplay>
+        <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+        </audio>
+        """
+
+        st.markdown(audio_html, unsafe_allow_html=True)
+
+    except:
+        st.warning("No se pudo reproducir el audio")
+
+# -----------------------------
+# PISTAS
+# -----------------------------
+def pista():
+
+    if perfil == "D":
+        return
+
+    if st.session_state.fase == 2:
+        return
+
+    if st.sidebar.button("💡 Solicitar pista", key=f"pista_{st.session_state.fase}"):
+
+        if st.session_state.fase == 1:
+            lista = [
+                "El patrón no es único: hay dos reglas que se alternan",
+                "Observa las posiciones pares e impares por separado",
+                "Algunos saltos son multiplicativos y otros no",
+                "Prueba a analizar qué ocurre cada dos pasos",
+                "No todos los cambios siguen la misma lógica",
+                "Divide la serie en dos secuencias intercaladas",
+                "Los cambios grandes y pequeños no ocurren al azar"
+            ]
+
+        elif st.session_state.fase == 3:
+            lista = [
+                "Cada letra ha sido desplazada varias posiciones en el alfabeto",
+                "La palabra original tiene sentido en inglés",
+                "La G podría no ser realmente una G… piensa en retroceder letras",
+                "Intenta restar el mismo número a cada letra del alfabeto",
+                "No es un código complejo: es un cifrado clásico de sustitución simple"
+            ]
+        else:
+            return
+
+        if perfil == "A":
+            st.sidebar.info(random.choice(lista))
+
+        elif perfil in ["B","C"]:
+            if st.session_state.pistas_usadas == 0:
+                st.sidebar.info(random.choice(lista))
+                st.session_state.pistas_usadas = 1
+            else:
+                st.sidebar.warning("Ya has usado tu pista")
+
+        elif st.session_state.fase == 4:
+
+            if perfil == "A":
+                lista = [
+                    "Trabaja con cada cifra por separado",
+                    "Puede haber una transformación antes del resultado",
+                    "No es una operación directa con el número completo"
+                ]
+
+            elif perfil == "B":
+                lista = [
+                    "Divide la palabra en partes",
+                    "Cuenta diferentes tipos de elementos",
+                    "No todo lo que cuentas es lo mismo"
+                ]
+
+            elif perfil == "C":
+                lista = [
+                    "Cada persona se saluda con todas las demás",
+                    "Evita contar saludos duplicados",
+                    "Esto sigue una fórmula combinatoria"
+                ]
+
+            elif perfil == "D":
+                lista = [
+                    "Primero elimina los números que no cumplen la condición",
+                    "Después cuenta con un patrón regular",
+                    "Los números pares siguen un intervalo constante"
+                ]
+
+            if perfil == "A":
+                st.sidebar.info(random.choice(lista))
+
+            elif perfil in ["B","C"]:
+                if st.session_state.pistas_usadas == 0:
+                    st.sidebar.info(random.choice(lista))
+                    st.session_state.pistas_usadas = 1
+                else:
+                    st.sidebar.warning("Ya has usado tu pista")
+
+# -----------------------------
+# NORMAS
+# -----------------------------
+def mostrar_normas():
+    st.subheader("📋 Normas del proceso")
+
+    if perfil == "A":
+        st.write("Puedes utilizar los recursos que quieras si lo consideras necesario.")
+    elif perfil == "B":
+        st.write("Solo puedes consultar materiales de la asignatura y/o pedir ayuda al profesor.")
+    elif perfil == "C":
+        st.write("Solo está permitido pedir ayuda al profesor.")
+    else:
+        st.write("No puedes hacer uso de ningún tipo de ayuda.")
+
+# -----------------------------
+# BOTONES TRAMPA (SIDEBAR)
+# -----------------------------
+def botones_trampa():
+
+    st.sidebar.divider()
+    st.sidebar.subheader("⚠️ Opciones adicionales")
+
+    if st.sidebar.button("📚 Consultar materiales", key=f"mat_{st.session_state.fase}"):
+
+        reproducir_audio_auto("materiales.mp3")
+
+        if perfil != "A":
+            st.session_state.trampas += 1
+            st.sidebar.warning("Has mejorado tu probabilidad de éxito")
+
+    if st.sidebar.button("🤝 Pedir ayuda por WhatsApp", key=f"wa_{st.session_state.fase}"):
+
+        st.sidebar.info("Contactando con otro candidato...")
+        reproducir_audio_auto("whatsapp.mp3")
+
+        if perfil != "A":
+            st.session_state.trampas += 1
+            st.sidebar.warning("Has mejorado tu probabilidad de éxito")
+
+    if st.sidebar.button("👨‍🏫 Ayuda del profesor", key=f"prof_{st.session_state.fase}"):
+
+        reproducir_audio_auto("profesor.mp3")
+
+        if perfil != "A":
+            st.session_state.trampas += 1
+            st.sidebar.warning("Has mejorado tu probabilidad de éxito")
+
+    pista()
+
+# -----------------------------
+# INICIO
+# -----------------------------
+if st.session_state.fase == 0:
+
+    nombre = st.text_input("ID candidato")
+
+    if nombre:
+        mostrar_normas()
+
+    if st.button("Comenzar", key="btn_inicio") and nombre:
+        st.session_state.start = time.time()
+        st.session_state.fase = 1
+        st.session_state.nombre = nombre
+
+# -----------------------------
+# FASE 1
+# -----------------------------
+if st.session_state.fase == 1:
+
+    tiempo()
+    abandonar()
+    botones_trampa()
+
+    st.header("Fase 1 — Secuencia lógica")
+
+    if "secuencia" not in st.session_state:
+        st.session_state.secuencia = random.choice([
+            ([2, 6, 7, 21, 22, 66], 67),
+            ([3, 9, 11, 33, 35, 105], 107),
+            ([2, 4, 12, 48, 240], 1440)
+        ])
+
+    seq, sol = st.session_state.secuencia
+
+    if perfil == "D":
+        if st.session_state.subperfil_D == "dificil":
+            seq = [seq[0], "?", seq[2], "?", "?"]
+        else:
+            seq = [seq[0], seq[1], "?", seq[3], "?"]
+
+    if perfil == "C":
+        st.write("Secuencia:", [str(x) for x in seq])
+    else:
+        st.write("Secuencia:", seq)
+
+    r = st.text_input("Introduce el último número de la serie", key="f1_input")
+
+    if st.button("Comprobar", key="btn_f1"):
+
+        if perfil == "C" and random.random() < 0.3:
+            st.warning("⚠️ Error del sistema. Reintenta.")
+        else:
+            if r.strip() == str(sol):
+                st.session_state.fase = 2
+                st.session_state.pistas_usadas = 0
+            else:
+                st.error("Incorrecto")
+
+# -----------------------------
+# FASE 2 — TEST (COMPLETO)
+# -----------------------------
+if st.session_state.fase == 2:
+
+    tiempo()
+    abandonar()
+    botones_trampa()
+
+    st.header("Fase 2 — Evaluación de conocimientos")
+
+    def q(texto, opciones, key):
+        return st.radio(texto, opciones, key=key)
+
+    # 👉 TODO TU BLOQUE ORIGINAL AQUÍ (SIN CAMBIOS)
+    # (lo mantengo tal cual lo enviaste)
+
+    # 👇 TODO ESTE BLOQUE ES EXACTAMENTE EL TUYO (NO MODIFICADO)
+    # (lo mantengo igual que lo enviaste)
+
+    if perfil == "A":
+        r1 = q("1. De acuerdo con la teoría de las actividades cotidianas, para que el delito ocurra deben coincidir en el espacio y el tiempo:",
+               ["Un delincuente potencial, una víctima inadecuada y la presencia de un guardián",
+                "Un delincuente potencial, una víctima adecuada y la presencia policial",
+                "Un delincuente motivado, una víctima u objetivo adecuado y la ausencia de un guardián capaz"], "a1")
+
+        r2 = q("2. ¿Qué Escuela de pensamiento sostiene la idea del libre albedrío?",
+               ["La Escuela Clásica", "La Escuela Positivista Italiana", "La Escuela de Chicago"], "a2")
+
+        r3 = q("3. ¿Qué teoría explica que el delincuente continua cometiendo delitos como resultado de que la sociedad le ha puesto una etiqueta?",
+               ["La teoría del conflicto social", "La teoría del labelling approach o etiquetamiento", "La teoría del control social informal"], "a3")
+
+        r4 = q("4. De acuerdo con la teoría de la desorganización social ¿Qué tres características estructurales explican la mayor concentración de delitos?",
+               ["Concentración de pobreza, homogeneidad nacional y heterogeneidad cultural",
+                "Acumulación de pobreza, estabilidad poblacional y heterogeneidad cultural",
+                "Acumulación de pobreza, inestabilidad poblacional y heterogeneidad étnico-cultural"], "a4")
+
+        r5 = q("5. De acuerdo con la Escuela Clásica ¿Qué características deberían tener las penas para ser efectivas?",
+               ["Celeridad, certeza y severidad", "Celeridad, certeza y proporcionalidad", "Celeridad, retraso y severidad"], "a5")
+
+        correctas = [
+            r1.startswith("Un delincuente motivado"),
+            r2 == "La Escuela Clásica",
+            r3.startswith("La teoría del labelling"),
+            r4.startswith("Acumulación de pobreza, inestabilidad"),
+            r5 == "Celeridad, certeza y severidad"
+        ]
+
+    elif perfil == "B":
+        r1 = q("1. De acuerdo con la teoría de las actividades cotidianas, para que el delito ocurra deben coincidir en el espacio y el tiempo:",
+               ["Un delincuente potencial, una víctima inadecuada y la presencia de un guardián",
+                "Un delincuente potencial, una víctima adecuada y la presencia policial",
+                "Un delincuente motivado, una víctima u objetivo adecuado y la ausencia de un guardián capaz"], "b1")
+
+        r2 = q("2. ¿Qué Escuela de pensamiento sostiene la idea del libre albedrío?",
+               ["La Escuela Clásica", "La Escuela Positivista Italiana", "La Escuela de Chicago"], "b2")
+
+        r3 = q("3. ¿Cuáles son los dos mecanismos explicativos a los que alude la teoría de la personalidad criminal de Eysenck?",
+               ["Desarrollo de la conciencia moral y capacidad de comportarse prosocialmente",
+                "Desarrollo de la conciencia moral e incapacidad de comportarse prosocialmente",
+                "Aprendizaje clásico y aversión"], "b3")
+
+        r4 = q("4. De acuerdo con la Escuela Clásica ¿Qué características deberían tener las penas para ser efectivas?",
+               ["Especificidad, certeza y severidad",
+                "Celeridad, certeza y proporcionalidad",
+                "Celeridad, severidad y certeza"], "b4")
+
+        r5 = q("5. La teoría de la elección racional:",
+               ["Parte de que el individuo está destinado a delinquir",
+                "Parte del enfoque del libre albedrío",
+                "Acepta el indeterminismo patológico"], "b5")
+
+        correctas = [
+            r1.startswith("Un delincuente motivado"),
+            r2 == "La Escuela Clásica",
+            r3.startswith("Desarrollo de la conciencia moral"),
+            r4.startswith("Celeridad, severidad"),
+            r5.startswith("Parte del enfoque del libre albedrío")
+        ]
+
+    elif perfil == "C":
+        r1 = q("1. ¿Cuáles son los dos mecanismos explicativos a los que alude la teoría de la personalidad criminal de Eysenck?",
+               ["Desarrollo de la conciencia moral y capacidad de comportarse prosocialmente",
+                "Desarrollo de la conciencia moral e incapacidad de comportarse prosocialmente",
+                "Aprendizaje clásico y aversión"], "c1")
+
+        r2 = q("2. ¿Cuál de las siguientes no es una crítica al enfoque de la elección racional?",
+               ["Ponen demasiado énfasis en el individuo",
+                "Prestan demasiada atención a las motivaciones para delinquir",
+                "Los delincuentes son poco realistas en sus evaluaciones",
+                "Todas las anteriores son críticas"], "c2")
+
+        r3 = q("3. ¿Cuál de las siguientes características de la personalidad no está relacionada con el comportamiento delictivo?",
+               ["Locus de control interno",
+                "Ausencia de empatía",
+                "Baja tolerancia a la frustración",
+                "Todas están relacionadas"], "c3")
+
+        r4 = q("4. ¿Qué autores desarrollaron la teoría de la desorganización social?",
+               ["Thomas y Znaniecki",
+                "Shaw Mendes y Henry Mendely",
+                "Cornish y Clarke",
+                "Shaw y Mackay"], "c4")
+
+        r5 = q("5. ¿Qué autor se preguntó 'Por qué el comportamiento delictivo no es el más común?'",
+               ["Durkheim",
+                "Ivan Nye",
+                "Cohen",
+                "Ninguno de los anteriores"], "c5")
+
+        correctas = [
+            r1.startswith("Desarrollo de la conciencia moral"),
+            r2.startswith("Todas"),
+            r3.startswith("Locus"),
+            r4.startswith("Shaw"),
+            r5.startswith("Ivan")
+        ]
+
+    else:
+        r1 = q("1. ¿Qué autor se preguntó 'Por qué el comportamiento delictivo no es el más común?'",
+               ["Durkheim",
+                "Ivan Nye",
+                "Cohen",
+                "Ninguno de los anteriores"], "d1")
+
+        r2 = q("2. ¿Qué opinaba Ruth Kornhauser de la teoría de la desorganización social?",
+               ["Era un modelo tautológico",
+                "Era un modelo puro coherente",
+                "Era un modelo híbrido incapaz de explicar la delincuencia adulta",
+                "Era una teoría circular que no necesitaba mejoras"], "d2")
+
+        r3 = q("3. ¿Qué autor apoyaba la pena de muerte?",
+               ["Lombroso", "Ferri", "Garofalo", "Fishbein"], "d3")
+
+        r4 = q("4. ¿Cuál de los siguientes factores no contribuyó al éxito de la criminología crítica?",
+               ["El sistema es defectuoso",
+                "Escepticismo frente a teorías anteriores",
+                "Rechazo a la idea de consenso del derecho penal",
+                "Rechazo al libre albedrío"], "d4")
+
+        r5 = q("5. ¿Qué autor dijo: 'el niño que no logra alcanzar el grado de configuración emocional exigida socialmente…'?",
+               ["Matza", "Sykes", "Norbert Elias", "Lemert"], "d5")
+
+        correctas = [
+            r1.startswith("Ivan"),
+            r2.startswith("Era un modelo tautológico"),
+            r3.startswith("Garofalo"),
+            r4.startswith("Rechazo al libre albedrío"),
+            r5.startswith("Norbert Elias")
+        ]
+
+    if st.button("Finalizar test", key="btn_test"):
+
+        if perfil == "C" and random.random() < 0.3:
+            st.warning("⚠️ Error al enviar respuestas. Reintenta.")
+        else:
+            if all(correctas):
+                st.session_state.fase = 3
+            else:
+                st.error("Respuestas incorrectas. Debe responder correctamente a todas.")
+
+# -----------------------------
+# FASE 3 — CIFRADO
+# -----------------------------
+if st.session_state.fase == 3:
+
+    tiempo()
+    abandonar()
+    botones_trampa()
+
+    st.header("Fase final — Descifrado")
+
+    if "cifrado" not in st.session_state:
+        st.session_state.cifrado = random.choice([
+            ("JRRJOH VHFXULWB", "GOOGLE SECURITY"),
+            ("KHOOR ZRUOG", "HELLO WORLD")
+        ])
+
+    texto, solucion = st.session_state.cifrado
+
+    if perfil == "D":
+        texto = " ".join([c if random.random()>0.5 else "_" for c in texto])
+
+    st.write("Mensaje:", texto)
+
+    r = st.text_input("Respuesta", key="cifrado_input")
+
+    if st.button("Validar", key="btn_final"):
+
+        if perfil == "C" and random.random() < 0.3:
+            st.warning("⚠️ Error del sistema. Reintenta.")
+        else:
+            if solucion in r.upper():
+                st.success("Proceso completado")
+                st.session_state.fase = 4
+            else:
+                st.error("Incorrecto")
+
+
+import requests
+
+def guardar_datos(data):
+    url = "https://script.google.com/macros/s/AKfycbxBKkY6rfPJepvt0P2ZiATu4z4qXt6w_F2NB354E-Zc6mai2RLRH5sH-novokU3iNmiGA/exec"
+    try:
+        requests.post(url, json=data)
+    except:
+        pass
+
+# -----------------------------
+# FASE 4 — PSICOTÉCNICOS
+# -----------------------------
+if st.session_state.fase == 4:
+
+    tiempo()
+    abandonar()
+    botones_trampa()
+
+    st.header("Fase 4 — Psicotécnicos")
+
+    # -------- PERFIL A --------
+    if perfil == "A":
+
+        st.write("152 = 157")
+        st.write("1253 = 38")
+        st.write("1331 = ?")
+
+        r = st.text_input("Respuesta", key="psi_A_input")
+
+        if st.button("Responder", key="psi_A"):
+
+            if r.strip() == "44":
+                st.session_state.fase = 5
+            else:
+                st.error("Incorrecto")
+
+    # -------- PERFIL B --------
+    elif perfil == "B":
+
+        st.write("Jefatura = 4+4")
+        st.write("Comisaría = 5+4")
+        st.write("Patrulla = 3+5")
+        st.write("Apolo = ?")
+
+        r = st.text_input("Respuesta (formato: X+Y)", key="psi_B_input")
+
+        if st.button("Responder", key="psi_B"):
+
+            if r.replace(" ", "") == "3+2":
+                st.session_state.fase = 5
+            else:
+                st.error("Incorrecto")
+
+    # -------- PERFIL C --------
+    elif perfil == "C":
+
+        st.write("Si en una reunión, al saludarse, se han producido 10 apretones de manos:")
+        st.write("¿Cuántas personas asistieron?")
+
+        r = st.text_input("Respuesta", key="psi_C_input")
+
+        if st.button("Responder", key="psi_C"):
+
+            if r.strip() == "5":
+                st.session_state.fase = 5
+            else:
+                st.error("Incorrecto")
+
+    # -------- PERFIL D --------
+    else:
+
+        st.write("¿Cuántos números pares hay del 70 al 379 (ambos inclusive)")
+        st.write("sin tener en cuenta los de dos cifras?")
+
+        r = st.text_input("Respuesta", key="psi_D_input")
+
+        if st.button("Responder", key="psi_D"):
+
+            if r.strip() == "140":
+                st.session_state.fase = 5
+            else:
+                st.error("Incorrecto")
+
+# -----------------------------
+# FINAL
+# -----------------------------
+
+if st.session_state.fase == 5 and not st.session_state.guardado:
+
+    guardar_datos({
+        "id": st.session_state.get("nombre", "anonimo"),
+        "perfil": perfil,
+        "fase": st.session_state.fase,
+        "trampas": st.session_state.get("trampas", 0),
+        "pistas": st.session_state.get("pistas_usadas", 0),
+        "resultado": "completado"
+    })
+
+    st.session_state.guardado = True
+
+    st.success("Proceso finalizado. Gracias por aplicar al puesto de trabajo en Google.")
