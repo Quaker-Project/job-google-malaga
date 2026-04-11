@@ -553,7 +553,7 @@ if st.session_state.fase == 4:
     # -------- PERFIL D --------
     else:
 
-        st.write("¿Cuántos números pares hay del 70 al 379 (ambos inclusive, sin tener en cuenta los de dos cifras?")
+        st.write("¿Cuántos números pares hay del 70 al 379 (ambos inclusive), sin tener en cuenta los de dos cifras?")
 
         r = st.text_input("Respuesta", key="psi_D_input")
 
