@@ -317,50 +317,38 @@ if st.session_state.fase == 1:
     seq, sol = st.session_state.secuencia
     seq_mostrar = list(seq)
 
-# -------- DIFERENCIACIÓN POR PERFIL --------
-    if perfil == "A":
-    # Fácil → no ocultas nada
-        pass
-
-    elif perfil == "B":
-    # Medio → ocultas 1 elemento
+    # -------- DIFERENCIACIÓN --------
+    if perfil == "B" and len(seq_mostrar) > 2:
         seq_mostrar[2] = "?"
 
     elif perfil == "C":
-    # Difícil → ocultas 2 elementos
-        seq_mostrar[2] = "?"
+        if len(seq_mostrar) > 2:
+            seq_mostrar[2] = "?"
         seq_mostrar[-1] = "?"
 
     elif perfil == "D":
-    # Muy difícil → ocultas varios
-        if st.session_state.subperfil_D == "dificil":
-            seq_mostrar = [seq[0], "?", seq[2], "?", "?"]
+        indices = random.sample(range(len(seq)), min(3, len(seq)))
+        for i in indices:
+            seq_mostrar[i] = "?"
+
+    # -------- MOSTRAR --------
+    st.markdown("### Secuencia")
+    st.markdown(" → ".join(map(str, seq_mostrar)))
+
+    # -------- INPUT --------
+    r = st.text_input("Introduce el siguiente número de la serie", key="f1_input")
+
+    if st.button("Comprobar", key="btn_f1"):
+
+        if perfil == "C" and random.random() < 0.3:
+            st.warning("⚠️ Error del sistema. Reintenta.")
         else:
-            seq_mostrar = [seq[0], seq[1], "?", seq[3], "?"]
-
-# -------- MOSTRAR SIEMPRE --------
-st.markdown("### Secuencia")
-st.markdown(" → ".join(map(str, seq_mostrar)))
-
-    
-
-# 👉 Formato visual tipo psicotécnico
-st.markdown("### Secuencia")
-st.markdown(" → ".join([str(x) for x in seq_mostrar]))
-
-r = st.text_input("Introduce el siguiente número de la serie", key="f1_input")
-
-if st.button("Comprobar", key="btn_f1"):
-
-    if perfil == "C" and random.random() < 0.3:
-        st.warning("⚠️ Error del sistema. Reintenta.")
-    else:
-        if r.strip() == str(sol):
-            st.session_state.fase = 2
-            st.session_state.error_ayuda = False
-            st.session_state.pistas_usadas = 0
-        else:
-            st.error("Incorrecto")
+            if r.strip() == str(sol):
+                st.session_state.fase = 2
+                st.session_state.error_ayuda = False
+                st.session_state.pistas_usadas = 0
+            else:
+                st.error("Incorrecto")
 
 # -----------------------------
 # FASE 2 — TEST (COMPLETO)
