@@ -101,7 +101,16 @@ def reproducir_audio_auto(ruta):
 # -----------------------------
 def pista():
 
-    if perfil == "D":
+    if perfil == "D" and not st.session_state.error_ayuda:
+        return
+
+    if st.session_state.fase == 2:
+        return
+
+    def pista():
+
+    # Bloqueo solo si NO hay error
+    if perfil == "D" and not st.session_state.error_ayuda:
         return
 
     if st.session_state.fase == 2:
@@ -109,6 +118,7 @@ def pista():
 
     if st.sidebar.button("💡 Solicitar pista", key=f"pista_{st.session_state.fase}"):
 
+        # ---------------- FASE 1 ----------------
         if st.session_state.fase == 1:
             lista = [
                 "El patrón no es único: hay dos reglas que se alternan",
@@ -120,6 +130,7 @@ def pista():
                 "Los cambios grandes y pequeños no ocurren al azar"
             ]
 
+        # ---------------- FASE 3 ----------------
         elif st.session_state.fase == 3:
             lista = [
                 "Cada letra ha sido desplazada varias posiciones en el alfabeto",
@@ -128,19 +139,8 @@ def pista():
                 "Intenta restar el mismo número a cada letra del alfabeto",
                 "No es un código complejo: es un cifrado clásico de sustitución simple"
             ]
-        else:
-            return
 
-        if perfil == "A":
-            st.sidebar.info(random.choice(lista))
-
-        elif perfil in ["B","C"]:
-            if st.session_state.pistas_usadas == 0:
-                st.sidebar.info(random.choice(lista))
-                st.session_state.pistas_usadas = 1
-            else:
-                st.sidebar.warning("Ya has usado tu pista")
-
+        # ---------------- FASE 4 ----------------
         elif st.session_state.fase == 4:
 
             if perfil == "A":
@@ -171,16 +171,24 @@ def pista():
                     "Los números pares siguen un intervalo constante"
                 ]
 
-            if perfil == "A":
+        else:
+            return
+
+        # -------- CONTROL DE USO DE PISTAS --------
+        if perfil == "A":
+            st.sidebar.info(random.choice(lista))
+
+        elif perfil in ["B", "C"]:
+            if st.session_state.pistas_usadas == 0:
                 st.sidebar.info(random.choice(lista))
+                st.session_state.pistas_usadas = 1
+            else:
+                st.sidebar.warning("Ya has usado tu pista")
 
-            elif perfil in ["B","C"]:
-                if st.session_state.pistas_usadas == 0:
-                    st.sidebar.info(random.choice(lista))
-                    st.session_state.pistas_usadas = 1
-                else:
-                    st.sidebar.warning("Ya has usado tu pista")
+        elif perfil == "D":
+            st.sidebar.info(random.choice(lista))
 
+       
 # -----------------------------
 # NORMAS
 # -----------------------------
@@ -651,7 +659,9 @@ if st.session_state.fase == 5 and not st.session_state.guardado:
         "fase": st.session_state.fase,
         "trampas": st.session_state.get("trampas", 0),
         "pistas": st.session_state.get("pistas_usadas", 0),
-        "resultado": "completado"
+        "intentos_test": st.session_state.get("intentos_test", 0),
+        "resultado": "completado",
+        
     })
 
     st.session_state.guardado = True
