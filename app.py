@@ -99,6 +99,31 @@ def reproducir_audio_auto(ruta):
 # -----------------------------
 # PISTAS
 # -----------------------------
+
+if st.sidebar.button("💡 Solicitar pista", key=f"pista_{st.session_state.fase}"):
+
+    # ---------- FASE 1 ----------
+    if st.session_state.fase == 1:
+        lista = [...]
+
+    # ---------- FASE 3 ----------
+    elif st.session_state.fase == 3:
+        lista = [...]
+
+    # ---------- FASE 4 ----------
+    elif st.session_state.fase == 4:
+
+        if perfil == "A":
+            lista = [...]
+        elif perfil == "B":
+            lista = [...]
+        elif perfil == "C":
+            lista = [...]
+        elif perfil == "D":
+            lista = [...]
+
+    else:
+        return
 def pista():
 
     if perfil == "D" and not st.session_state.error_ayuda:
