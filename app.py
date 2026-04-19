@@ -68,6 +68,9 @@ if "error_ayuda" not in st.session_state:
 if "error_tipo" not in st.session_state:
     st.session_state.error_tipo = None
 
+if "cambios_pestana" not in st.session_state:
+    st.session_state.cambios_pestana = 0
+
 
 # -----------------------------
 # FUNCIONES
