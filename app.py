@@ -142,10 +142,11 @@ def pista():
         elif st.session_state.fase == 3:
             lista = [
                 "Cada letra ha sido desplazada varias posiciones en el alfabeto",
-                "La palabra original tiene sentido en inglés",
+                "No hay símbolos raros, solo letras desplazadas",
                 "La G podría no ser realmente una G… piensa en retroceder letras",
                 "Intenta restar el mismo número a cada letra del alfabeto",
-                "No es un código complejo: es un cifrado clásico de sustitución simple"
+                "Todas las letras se han movido el mismo número de posiciones"
+                "Es un cifrado por desplazamiento (tipo César)"
             ]
 
         # ---------- FASE 4 ----------
@@ -311,11 +312,15 @@ if st.session_state.fase == 1:
             seq = [seq[0], seq[1], "?", seq[3], "?"]
 
     if perfil == "C":
-        st.write("Secuencia:", [str(x) for x in seq])
-    else:
-        st.write("Secuencia:", seq)
+        seq_mostrar = seq.copy()
+        if "?" not in seq_mostrar:
+            seq_mostrar.append("?")
 
-    r = st.text_input("Introduce el último número de la serie", key="f1_input")
+# 👉 Formato visual tipo psicotécnico
+        st.markdown("### Secuencia")
+        st.markdown(" → ".join([str(x) for x in seq_mostrar]))
+
+    r = st.text_input("Introduce el siguiente número de la serie", key="f1_input")
 
     if st.button("Comprobar", key="btn_f1"):
 
@@ -568,8 +573,9 @@ if st.session_state.fase == 3:
 
     if "cifrado" not in st.session_state:
         st.session_state.cifrado = random.choice([
-            ("JRRJOH VHFXULWB", "GOOGLE SECURITY"),
-            ("KHOOR ZRUOG", "HELLO WORLD")
+            ("SDUDGLJPD", "PARADIGMA"),
+            ("DQRPLD", "ANOMIA"),
+            ("FRQWURO VRFLDO", "CONTROL SOCIAL")  
         ])
 
     texto, solucion = st.session_state.cifrado
