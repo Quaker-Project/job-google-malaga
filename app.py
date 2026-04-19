@@ -126,7 +126,7 @@ def pista():
 
     if st.sidebar.button("💡 Solicitar pista", key=f"pista_{st.session_state.fase}"):
 
-        if "pistas" not in permisos[perfil] and st.session_state.error_tipo != "pistas":
+        if "pistas" not in permisos[perfil]:
             st.sidebar.warning("No tienes acceso a pistas")
             st.session_state.trampas += 1
             return
@@ -255,7 +255,7 @@ def botones_trampa():
 
         st.markdown('[Abrir campus](https://derecho.cv.uma.es/course/view.php?id=4646)', unsafe_allow_html=True)
 
-        if "materiales" not in permisos[perfil] and st.session_state.error_tipo != "materiales":
+        if "materiales" not in permisos[perfil]:
             st.session_state.trampas += 1
             st.sidebar.warning("Has mejorado tu probabilidad de éxito")
 
@@ -265,7 +265,7 @@ def botones_trampa():
         st.sidebar.info("Contactando con otro candidato...")
         st.markdown('[Abrir WhatsApp](https://wa.me/)', unsafe_allow_html=True)
 
-        if "whatsapp" not in permisos[perfil] and st.session_state.error_tipo != "whatsapp":
+        if "whatsapp" not in permisos[perfil]:
             st.session_state.trampas += 1
             st.sidebar.warning("Has mejorado tu probabilidad de éxito")
 
