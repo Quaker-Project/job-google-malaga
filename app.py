@@ -209,7 +209,10 @@ def botones_trampa():
     if st.sidebar.button("🤝 Pedir ayuda por WhatsApp", key=f"wa_{st.session_state.fase}"):
 
         st.sidebar.info("Contactando con otro candidato...")
-        reproducir_audio_auto("whatsapp.mp3")
+        st.markdown(
+            '[Abrir WhatsApp](https://wa.me/)',
+            unsafe_allow_html=True
+        )
 
         if perfil != "A":
             st.session_state.trampas += 1
