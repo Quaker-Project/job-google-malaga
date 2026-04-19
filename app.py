@@ -327,7 +327,15 @@ if st.session_state.fase == 1:
         seq_mostrar[-1] = "?"
 
     elif perfil == "D":
-        indices = random.sample(range(len(seq)), min(3, len(seq)))
+
+        seq_mostrar = list(seq)
+
+    # 🔒 Evitamos extremos (primero y último)
+        posibles_indices = list(range(1, len(seq)-1))
+
+    # 🔒 Solo 2 incógnitas (no 3)
+        indices = random.sample(posibles_indices, min(2, len(posibles_indices)))
+
         for i in indices:
             seq_mostrar[i] = "?"
 
