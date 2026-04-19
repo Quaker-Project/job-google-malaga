@@ -149,24 +149,24 @@ def pista():
         # ---------- FASE 1 ----------
         if st.session_state.fase == 1:
             lista = [
-                "El patrón no es único: hay dos reglas que se alternan",
-                "Observa las posiciones pares e impares por separado",
-                "Algunos saltos son multiplicativos y otros no",
-                "Prueba a analizar qué ocurre cada dos pasos",
-                "No todos los cambios siguen la misma lógica",
-                "Divide la serie en dos secuencias intercaladas",
-                "Los cambios grandes y pequeños no ocurren al azar"
+                "PISTA: El patrón no es único: hay dos reglas que se alternan",
+                "PISTA: Observa las posiciones pares e impares por separado",
+                "PISTA: Algunos saltos son multiplicativos y otros no",
+                "PISTA: Prueba a analizar qué ocurre cada dos pasos",
+                "PISTA: No todos los cambios siguen la misma lógica",
+                "PISTA: Divide la serie en dos secuencias intercaladas",
+                "PISTA: Los cambios grandes y pequeños no ocurren al azar"
             ]
 
         # ---------- FASE 3 ----------
         elif st.session_state.fase == 3:
             lista = [
-                "Cada letra ha sido desplazada varias posiciones en el alfabeto",
-                "No hay símbolos raros, solo letras desplazadas",
-                "La G podría no ser realmente una G… piensa en retroceder letras",
-                "Intenta restar el mismo número a cada letra del alfabeto",
-                "Todas las letras se han movido el mismo número de posiciones",
-                "Es un cifrado por desplazamiento (tipo César)"
+                "PISTA: Cada letra ha sido desplazada varias posiciones en el alfabeto",
+                "PISTA: No hay símbolos raros, solo letras desplazadas",
+                "PISTA: La G podría no ser realmente una G… piensa en retroceder letras",
+                "PISTA: Intenta restar el mismo número a cada letra del alfabeto",
+                "PISTA: Todas las letras se han movido el mismo número de posiciones",
+                "PISTA: Es un cifrado por desplazamiento (tipo César)"
             ]
 
         # ---------- FASE 4 ----------
