@@ -330,11 +330,15 @@ if st.session_state.fase == 1:
 
         seq_mostrar = list(seq)
 
-    # 🔒 Evitamos extremos (primero y último)
-        posibles_indices = list(range(1, len(seq)-1))
+        posibles = list(range(1, len(seq)-1))
+        random.shuffle(posibles)
 
-    # 🔒 Solo 2 incógnitas (no 3)
-        indices = random.sample(posibles_indices, min(2, len(posibles_indices)))
+        indices = []
+        for i in posibles:
+            if not indices or abs(i - indices[0]) > 1:
+                indices.append(i)
+            if len(indices) == 2:
+                break
 
         for i in indices:
             seq_mostrar[i] = "?"
