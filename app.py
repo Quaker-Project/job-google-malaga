@@ -71,7 +71,27 @@ if "error_tipo" not in st.session_state:
 if "cambios_pestana" not in st.session_state:
     st.session_state.cambios_pestana = 0
 
+from streamlit.runtime.scriptrunner import get_script_run_ctx
 
+if "last_event" not in st.session_state:
+    st.session_state.last_event = None
+
+components.html("""
+<script>
+window.addEventListener("message", (event) => {
+    if (event.data === "tab_hidden") {
+        fetch("/?tab_hidden=true");
+    }
+});
+</script>
+""", height=0)
+
+query_params = st.experimental_get_query_params()
+
+if "tab_hidden" in query_params:
+    st.session_state.cambios_pestana += 1
+    st.session_state.trampas += 1
+    st.warning("⚠️ Cambio de pestaña detectado")
 # -----------------------------
 # FUNCIONES
 # -----------------------------
