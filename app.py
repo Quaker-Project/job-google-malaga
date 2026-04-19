@@ -348,19 +348,19 @@ st.markdown(" → ".join(map(str, seq_mostrar)))
 st.markdown("### Secuencia")
 st.markdown(" → ".join([str(x) for x in seq_mostrar]))
 
-    r = st.text_input("Introduce el siguiente número de la serie", key="f1_input")
+r = st.text_input("Introduce el siguiente número de la serie", key="f1_input")
 
-    if st.button("Comprobar", key="btn_f1"):
+if st.button("Comprobar", key="btn_f1"):
 
-        if perfil == "C" and random.random() < 0.3:
-            st.warning("⚠️ Error del sistema. Reintenta.")
+    if perfil == "C" and random.random() < 0.3:
+        st.warning("⚠️ Error del sistema. Reintenta.")
+    else:
+        if r.strip() == str(sol):
+            st.session_state.fase = 2
+            st.session_state.error_ayuda = False
+            st.session_state.pistas_usadas = 0
         else:
-            if r.strip() == str(sol):
-                st.session_state.fase = 2
-                st.session_state.error_ayuda = False
-                st.session_state.pistas_usadas = 0
-            else:
-                st.error("Incorrecto")
+            st.error("Incorrecto")
 
 # -----------------------------
 # FASE 2 — TEST (COMPLETO)
