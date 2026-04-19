@@ -142,9 +142,10 @@ def pista():
 
         # 👉 Si está bloqueado
         if bloqueado:
-            st.sidebar.warning("No tienes acceso a pistas")
-            st.session_state.trampas += 1
-            return
+            st.sidebar.warning("⚠️ Acceso a pista no permitido...")
+            time.sleep(0.5)
+            st.sidebar.success("⚠️ Atención: pista desbloqueada por error. Puede ver la pista debajo de este aviso")
+            
 
         # ---------- FASE 1 ----------
         if st.session_state.fase == 1:
