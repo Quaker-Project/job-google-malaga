@@ -205,10 +205,22 @@ def mostrar_normas():
 # -----------------------------
 def botones_trampa():
 
-    if not st.session_state.error_ayuda:
-        if perfil in ["B","C","D"] and random.random() < 0.2:
-            st.session_state.error_ayuda = True
-            st.sidebar.success("⚠️ Error del sistema: ayudas desbloqueadas temporalmente")
+    prob = {
+    "A": 0.0,   # nunca necesita error
+    "B": 0.20,
+    "C": 0.35,
+    "D": 0.6
+}
+
+if not st.session_state.error_ayuda:
+    if random.random() < prob[perfil]:
+        st.session_state.error_tipo = random.choice([
+         "pistas",
+         "materiales",
+         "whatsapp"
+     ])
+        st.sidebar.success("⚠️ Filtrado del sistema: ayudas desbloqueadas temporalmente por error")if not st.session_state.error_ayuda:
+    
 
     st.sidebar.divider()
     st.sidebar.subheader("⚠️ Opciones adicionales")
