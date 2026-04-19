@@ -276,7 +276,7 @@ if st.session_state.fase == 1:
 
     if perfil == "D":
         if st.session_state.subperfil_D == "dificil":
-            seq = [seq[0], "?", seq[2], "?", "?"]
+            seq = [seq[0], "?", seq[2], seq[3], "?"]
         else:
             seq = [seq[0], seq[1], "?", seq[3], "?"]
 
