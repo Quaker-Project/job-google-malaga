@@ -339,14 +339,14 @@ if st.session_state.fase == 1:
             seq_mostrar = [seq[0], seq[1], "?", seq[3], "?"]
 
 # -------- MOSTRAR SIEMPRE --------
-    st.markdown("### Secuencia")
-    st.markdown(" → ".join(map(str, seq_mostrar)))
+st.markdown("### Secuencia")
+st.markdown(" → ".join(map(str, seq_mostrar)))
 
     
 
 # 👉 Formato visual tipo psicotécnico
-        st.markdown("### Secuencia")
-        st.markdown(" → ".join([str(x) for x in seq_mostrar]))
+st.markdown("### Secuencia")
+st.markdown(" → ".join([str(x) for x in seq_mostrar]))
 
     r = st.text_input("Introduce el siguiente número de la serie", key="f1_input")
 
