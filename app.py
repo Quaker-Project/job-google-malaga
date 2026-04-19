@@ -203,8 +203,8 @@ def botones_trampa():
 
     if not st.session_state.error_ayuda:
         if perfil in ["B","C","D"] and random.random() < 0.2:
-        st.session_state.error_ayuda = True
-        st.sidebar.success("⚠️ Error del sistema: ayudas desbloqueadas temporalmente")
+            st.session_state.error_ayuda = True
+            st.sidebar.success("⚠️ Error del sistema: ayudas desbloqueadas temporalmente")
 
     st.sidebar.divider()
     st.sidebar.subheader("⚠️ Opciones adicionales")
