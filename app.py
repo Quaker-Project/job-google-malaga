@@ -16,7 +16,17 @@ st.set_page_config(page_title="Proceso de selección", layout="centered")
 
 st.title("💻 Google Málaga — Proceso de selección")
 
-
+components.html("""
+<script>
+document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+        const url = new URL(window.location);
+        url.searchParams.set("tab_hidden", "1");
+        window.location.href = url.toString();
+    }
+});
+</script>
+""", height=0)
 # -----------------------------
 # ESTADO
 # -----------------------------
@@ -65,6 +75,22 @@ from streamlit.runtime.scriptrunner import get_script_run_ctx
 if "last_event" not in st.session_state:
     st.session_state.last_event = None
 
+query_params = st.experimental_get_query_params()
+
+if "tab_hidden" in query_params:
+
+    if not st.session_state.get("tab_detectado", False):
+        st.session_state.cambios_pestana += 1
+        st.session_state.trampas += 1
+        st.session_state.tab_detectado = True
+
+        st.warning("⚠️ Cambio de pestaña detectado")
+
+    # 🔥 MUY IMPORTANTE → limpiar
+    st.experimental_set_query_params()
+
+if "tab_detectado" not in st.session_state:
+    st.session_state.tab_detectado = False
 
 # -----------------------------
 # FUNCIONES
