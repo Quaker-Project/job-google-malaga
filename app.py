@@ -349,8 +349,8 @@ if st.session_state.fase == 1:
             st.session_state.indices_ocultos = indices
 
         # 👉 usar siempre los mismos
-       for i in st.session_state.indices_ocultos:
-           seq_mostrar[i] = "?"
+        for i in st.session_state.indices_ocultos:
+            seq_mostrar[i] = "?"
 
     # -------- MOSTRAR --------
     st.markdown("### Secuencia")
