@@ -324,12 +324,18 @@ if st.session_state.fase == 2:
         r5 = q("5. De acuerdo con la Escuela Clásica ¿Qué características deberían tener las penas para ser efectivas?",
                ["Celeridad, certeza y severidad", "Celeridad, certeza y proporcionalidad", "Celeridad, retraso y severidad"], "a5")
 
+        r6 = q("6. De acuerdo con la Teoría de la Asociación Diferencial de Sutherland:",
+               ["La delincuencia se aprende de observarla en los medios de comunicación", 
+                "La delincuencia no se hereda, sino que surge de forma espontánea", 
+                "La delincuencia se aprende, al igual que cualquier otro comportamiento"], "a6")
+
         correctas = [
             r1.startswith("Un delincuente motivado"),
             r2 == "La Escuela Clásica",
             r3.startswith("La teoría del labelling"),
             r4.startswith("Acumulación de pobreza, inestabilidad"),
-            r5 == "Celeridad, certeza y severidad"
+            r5 == "Celeridad, certeza y severidad",
+            r6 == "La delincuencia se aprende, al igual que cualquier otro comportamiento"
         ]
 
     elif perfil == "B":
@@ -356,10 +362,15 @@ if st.session_state.fase == 2:
                 "Parte del enfoque del libre albedrío",
                 "Acepta el indeterminismo patológico"], "b5")
         
-        r6 = q("5. La teoría del aprendizaje social de Sutherland:",
+        r6 = q("6. La teoría del aprendizaje social de Sutherland:",
                ["Toma como base las ideas del condicionamiento clásico",
                 "Toma como base las ideas del condicionamiento operante",
                 "Toma como base las ideas del aprendizaje vicario"], "b6")
+
+        r7 = q("7. La teoría del patrón delictivo dice que:",
+               ["El modus operandi tiene un patrón que cambia siempre",
+                "La delincuencia se distribuye de manera uniforme por el espacio y el tiempo",
+                "La persona delincuente tiende a delinquir dentro de su espacio de actividad y conciencia"], "b7")
 
         correctas = [
             r1.startswith("Un delincuente motivado"),
@@ -367,7 +378,8 @@ if st.session_state.fase == 2:
             r3.startswith("Desarrollo de la conciencia moral"),
             r4.startswith("Celeridad, severidad"),
             r5.startswith("Parte del enfoque del libre albedrío"),
-            r6.startswith("Toma como base las ideas del aprendizaje vicario")
+            r6.startswith("Toma como base las ideas del aprendizaje vicario"),
+            r7.startswith("La persona delincuente tiende a delinquir dentro de su espacio de actividad y conciencia")
             
         ]
 
@@ -401,12 +413,26 @@ if st.session_state.fase == 2:
                 "Cohen",
                 "Ninguno de los anteriores"], "c5")
 
+        r6 = q("6. La segunda Ley de Tarde enunca que:'",
+               ["Las modas nuevas sustituyen a las antiguas",
+                "El delito se aprende por observación mediática del comportamiento",
+                "Cohen",
+                "Los inferiores copian el comportamiento de los superiores"], "c6")
+
+        r7 = q("6. La segunda Ley de Tarde enunca que:'",
+               ["Las modas nuevas sustituyen a las antiguas",
+                "El delito se aprende por observación mediática del comportamiento",
+                "Cohen",
+                "Los inferiores copian el comportamiento de los superiores"], "c7")
+
         correctas = [
             r1.startswith("Desarrollo de la conciencia moral"),
             r2.startswith("Todas"),
             r3.startswith("Locus"),
             r4.startswith("Shaw"),
-            r5.startswith("Ivan")
+            r5.startswith("Ivan"),
+            r6.startswith("Los inferiores copian el comportamiento de los superiores"),
+            
         ]
 
     else:
@@ -431,15 +457,27 @@ if st.session_state.fase == 2:
                 "Rechazo a la idea de consenso del derecho penal",
                 "Rechazo al libre albedrío"], "d4")
 
-        r5 = q("5. ¿Qué autor dijo: 'el niño que no logra alcanzar el grado de configuración emocional exigida socialmente…'?",
-               ["Matza", "Sykes", "Norbert Elias", "Lemert"], "d5")
+        r5 = q("5. ¿Qué autor dijo: 'el niño que no logra alcanzar el grado de configuración emocional exigida socialmente es considerado como enfermo, anormal, criminal'?",
+               ["Katanambú", "Sykes", "Norbert Elias", "Lemert"], "d5")
+
+        r6 = q("6. ¿Qué autor español desarrolló la Teoría del Triple Riesgo Delictivo?",
+               ["Santiago Redondo", "Vicente Garrido", "Beatriz de Vicente", "Jordi Esparragueras"], "d6")
+
+        r7 = q("7. ¿A qué teoría se le ha criticado por ser más una teoría de la victimización que del delito?",
+               ["A la teoría de la victimización repetida", "A la teoría de las actividades cotidianas", 
+                "A la teoría del estilo de vida", "A la teoría de la elección racional"], "d7")
+
+        
 
         correctas = [
             r1.startswith("Ivan"),
             r2.startswith("Era un modelo tautológico"),
             r3.startswith("Garofalo"),
             r4.startswith("Rechazo al libre albedrío"),
-            r5.startswith("Norbert Elias")
+            r5.startswith("Norbert Elias"),
+            r6.startswith("Santiago Redondo"),
+            r7.startswith("A la teoría de las actividades cotidianas")
+            
         ]
 
     if st.button("Finalizar test", key="btn_test"):
