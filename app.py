@@ -99,11 +99,14 @@ def reproducir_audio_auto(ruta):
 # -----------------------------
 # PISTAS
 # -----------------------------
-    def pista():
+# -----------------------------
+# PISTAS
+# -----------------------------
+def pista():
 
     # Bloqueo si perfil D sin error
-        if perfil == "D" and not st.session_state.error_ayuda:
-            return
+    if perfil == "D" and not st.session_state.error_ayuda:
+        return
 
     if st.session_state.fase == 2:
         return
@@ -175,22 +178,6 @@ def reproducir_audio_auto(ruta):
                 st.sidebar.info(random.choice(lista))
                 st.session_state.pistas_usadas = 1
                 st.session_state.trampas += 1
-            else:
-                st.sidebar.warning("Ya has usado tu pista")
-
-        elif perfil == "D":
-            st.sidebar.info(random.choice(lista))
-
-
-
-        # -------- CONTROL DE USO DE PISTAS --------
-        if perfil == "A":
-            st.sidebar.info(random.choice(lista))
-
-        elif perfil in ["B", "C"]:
-            if st.session_state.pistas_usadas == 0:
-                st.sidebar.info(random.choice(lista))
-                st.session_state.pistas_usadas = 1
             else:
                 st.sidebar.warning("Ya has usado tu pista")
 
