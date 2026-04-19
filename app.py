@@ -127,9 +127,10 @@ def pista():
     if st.sidebar.button("💡 Solicitar pista", key=f"pista_{st.session_state.fase}"):
 
         if "pistas" not in permisos[perfil]:
-            st.sidebar.warning("No tienes acceso a pistas")
-            st.session_state.trampas += 1
-            return
+            st.sidebar.warning("⚠️ Acceso no permitido...")
+            time.sleep(0.5)
+            st.sidebar.success("⚠️ Error del sistema: pista desbloqueada")
+            
 
         # 👉 Si está bloqueado
         if bloqueado:
