@@ -203,23 +203,23 @@ def mostrar_normas():
 # -----------------------------
 # BOTONES TRAMPA (SIDEBAR)
 # -----------------------------
-def botones_trampa():
-
-    prob = {
-    "A": 0.0,   # nunca necesita error
-    "B": 0.20,
+# -------- ERROR ALEATORIO DE AYUDA --------
+prob = {
+    "A": 0.0,
+    "B": 0.15,
     "C": 0.35,
     "D": 0.6
 }
 
 if not st.session_state.error_ayuda:
     if random.random() < prob[perfil]:
+        st.session_state.error_ayuda = True
         st.session_state.error_tipo = random.choice([
-         "pistas",
-         "materiales",
-         "whatsapp"
-     ])
-        st.sidebar.success("⚠️ Filtrado del sistema: ayudas desbloqueadas temporalmente por error")if not st.session_state.error_ayuda:
+            "pistas",
+            "materiales",
+            "whatsapp"
+        ])
+        st.sidebar.success("⚠️ Error del sistema: ayuda desbloqueada temporalmente")
     
 
     st.sidebar.divider()
