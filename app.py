@@ -156,7 +156,7 @@ def pista():
                 "No hay símbolos raros, solo letras desplazadas",
                 "La G podría no ser realmente una G… piensa en retroceder letras",
                 "Intenta restar el mismo número a cada letra del alfabeto",
-                "Todas las letras se han movido el mismo número de posiciones"
+                "Todas las letras se han movido el mismo número de posiciones",
                 "Es un cifrado por desplazamiento (tipo César)"
             ]
 
