@@ -102,8 +102,8 @@ def reproducir_audio_auto(ruta):
     def pista():
 
     # Bloqueo si perfil D sin error
-    if perfil == "D" and not st.session_state.error_ayuda:
-        return
+        if perfil == "D" and not st.session_state.error_ayuda:
+            return
 
     if st.session_state.fase == 2:
         return
