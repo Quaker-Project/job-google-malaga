@@ -211,7 +211,10 @@ def botones_trampa():
 
     if st.sidebar.button("📚 Consultar materiales", key=f"mat_{st.session_state.fase}"):
 
-        reproducir_audio_auto("materiales.mp3")
+        st.markdown(
+            '[Abrir campus](https://derecho.cv.uma.es/course/view.php?id=4646)',
+            unsafe_allow_html=True
+        )
 
         if perfil != "A" and not st.session_state.error_ayuda:
             st.session_state.trampas += 1
