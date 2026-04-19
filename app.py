@@ -104,14 +104,23 @@ def reproducir_audio_auto(ruta):
 # -----------------------------
 def pista():
 
-    # Bloqueo si perfil D sin error
-    if perfil == "D" and not st.session_state.error_ayuda:
-        return
+    # ❌ NO bloquear antes (esto hacía desaparecer el botón)
+    # if perfil == "D" and not st.session_state.error_ayuda:
+    #     return
 
     if st.session_state.fase == 2:
         return
 
+    # 🔥 NUEVA LÓGICA DE BLOQUEO
+    bloqueado = (perfil == "D" and st.session_state.error_tipo != "pistas")
+
     if st.sidebar.button("💡 Solicitar pista", key=f"pista_{st.session_state.fase}"):
+
+        # 👉 Si está bloqueado
+        if bloqueado:
+            st.sidebar.warning("No tienes acceso a pistas")
+            st.session_state.trampas += 1
+            return
 
         # ---------- FASE 1 ----------
         if st.session_state.fase == 1:
@@ -192,13 +201,13 @@ def mostrar_normas():
     st.subheader("📋 Normas del proceso")
 
     if perfil == "A":
-        st.write("Puedes utilizar los recursos que quieras si lo consideras necesario.")
+        st.write("Puedes utilizar los recursos y ayudas que quieras si lo consideras necesario.")
     elif perfil == "B":
-        st.write("Solo puedes consultar materiales de la asignatura y/o pedir ayuda al profesor.")
+        st.write("En principio, solo puedes consultar materiales de la asignatura y/o pedir ayuda al profesor.")
     elif perfil == "C":
-        st.write("Solo está permitido pedir ayuda al profesor.")
+        st.write("En principio solo está permitido pedir ayuda al profesor.")
     else:
-        st.write("No puedes hacer uso de ningún tipo de ayuda.")
+        st.write("En principio no puedes hacer uso de ningún tipo de ayuda. Pero puedes decidir usarlas o no.")
 
 # -----------------------------
 # BOTONES TRAMPA (SIDEBAR)
