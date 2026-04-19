@@ -50,7 +50,7 @@ if "error_ayuda" not in st.session_state:
 # -----------------------------
 # FUNCIONES
 # -----------------------------
-    def tiempo():
+def tiempo():
     tiempos = {"A":1800,"B":1500,"C":1200,"D":900}
     restante = int(tiempos[perfil] - (time.time() - st.session_state.start))
 
