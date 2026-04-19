@@ -355,13 +355,20 @@ if st.session_state.fase == 2:
                ["Parte de que el individuo está destinado a delinquir",
                 "Parte del enfoque del libre albedrío",
                 "Acepta el indeterminismo patológico"], "b5")
+        
+        r6 = q("5. La teoría del aprendizaje social de Sutherland:",
+               ["Toma como base las ideas del condicionamiento clásico",
+                "Toma como base las ideas del condicionamiento operante",
+                "Toma como base las ideas del aprendizaje vicario"], "b6")
 
         correctas = [
             r1.startswith("Un delincuente motivado"),
             r2 == "La Escuela Clásica",
             r3.startswith("Desarrollo de la conciencia moral"),
             r4.startswith("Celeridad, severidad"),
-            r5.startswith("Parte del enfoque del libre albedrío")
+            r5.startswith("Parte del enfoque del libre albedrío"),
+            r6.startswith("Toma como base las ideas del aprendizaje vicario")
+            
         ]
 
     elif perfil == "C":
