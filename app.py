@@ -16,17 +16,6 @@ st.set_page_config(page_title="Proceso de selección", layout="centered")
 
 st.title("💻 Google Málaga — Proceso de selección")
 
-import streamlit.components.v1 as components
-
-components.html("""
-<script>
-document.addEventListener("visibilitychange", function() {
-    if (document.hidden) {
-        window.parent.postMessage("tab_hidden", "*");
-    }
-});
-</script>
-""", height=0)
 
 # -----------------------------
 # ESTADO
@@ -76,22 +65,7 @@ from streamlit.runtime.scriptrunner import get_script_run_ctx
 if "last_event" not in st.session_state:
     st.session_state.last_event = None
 
-components.html("""
-<script>
-window.addEventListener("message", (event) => {
-    if (event.data === "tab_hidden") {
-        fetch("/?tab_hidden=true");
-    }
-});
-</script>
-""", height=0)
 
-query_params = st.experimental_get_query_params()
-
-if "tab_hidden" in query_params:
-    st.session_state.cambios_pestana += 1
-    st.session_state.trampas += 1
-    st.warning("⚠️ Cambio de pestaña detectado")
 # -----------------------------
 # FUNCIONES
 # -----------------------------
