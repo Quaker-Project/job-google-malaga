@@ -336,33 +336,33 @@ if st.session_state.fase == 1:
 
     elif perfil == "D":
 
-    seq_mostrar = list(seq)
+        seq_mostrar = list(seq)
 
-    if st.session_state.indices_ocultos is None:
+        if st.session_state.indices_ocultos is None:
 
-        posibles = list(range(len(seq)))
+            posibles = list(range(len(seq)))
 
         # ❗ evitar extremos (clave para que sea resoluble)
-        posibles = posibles[1:-1]
+            posibles = posibles[1:-1]
 
-        random.shuffle(posibles)
+            random.shuffle(posibles)
 
-        indices = []
+            indices = []
 
-        for i in posibles:
+            for i in posibles:
             # evitar consecutivos
-            if all(abs(i - j) > 1 for j in indices):
-                indices.append(i)
+                if all(abs(i - j) > 1 for j in indices):
+                    indices.append(i)
 
-            if len(indices) == 3:
-                break
+                if len(indices) == 3:
+                    break
 
         # 🔒 si no consigue 3, se queda con los que tenga
-        st.session_state.indices_ocultos = indices
+            st.session_state.indices_ocultos = indices
 
     # aplicar ocultación
-    for i in st.session_state.indices_ocultos:
-        seq_mostrar[i] = "?"
+        for i in st.session_state.indices_ocultos:
+            seq_mostrar[i] = "?"
 
     # -------- MOSTRAR --------
     st.markdown("### Secuencia")
