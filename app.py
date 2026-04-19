@@ -316,6 +316,8 @@ if st.session_state.fase == 1:
 
     seq, sol = st.session_state.secuencia
     seq_mostrar = list(seq)
+    if "indices_ocultos" not in st.session_state:
+        st.session_state.indices_ocultos = None
 
     # -------- DIFERENCIACIÓN --------
     if perfil == "B" and len(seq_mostrar) > 2:
@@ -330,18 +332,24 @@ if st.session_state.fase == 1:
 
         seq_mostrar = list(seq)
 
-        posibles = list(range(1, len(seq)-1))
-        random.shuffle(posibles)
+    # 🔒 Generar solo una vez
+        if st.session_state.indices_ocultos is None:
 
-        indices = []
-        for i in posibles:
-            if not indices or abs(i - indices[0]) > 1:
-                indices.append(i)
-            if len(indices) == 2:
-                break
+            posibles = list(range(1, len(seq)-1))
+            random.shuffle(posibles)
 
-        for i in indices:
-            seq_mostrar[i] = "?"
+            indices = []
+            for i in posibles:
+                if not indices or abs(i - indices[0]) > 1:
+                    indices.append(i)
+                if len(indices) == 2:
+                    break
+
+            st.session_state.indices_ocultos = indices
+
+    # 👉 usar siempre los mismos
+    for i in st.session_state.indices_ocultos:
+        seq_mostrar[i] = "?"
 
     # -------- MOSTRAR --------
     st.markdown("### Secuencia")
@@ -359,6 +367,7 @@ if st.session_state.fase == 1:
                 st.session_state.fase = 2
                 st.session_state.error_ayuda = False
                 st.session_state.pistas_usadas = 0
+                st.session_state.indices_ocultos = None
             else:
                 st.error("Incorrecto")
 
