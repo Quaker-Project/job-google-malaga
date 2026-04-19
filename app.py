@@ -230,7 +230,7 @@ def botones_trampa():
 # -----------------------------
 if st.session_state.fase == 0:
 
-    nombre = st.text_input("ID candidato")
+    nombre = st.text_input("Nombre del candidato o candidata")
 
     if nombre:
         mostrar_normas()
