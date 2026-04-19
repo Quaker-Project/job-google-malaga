@@ -47,6 +47,10 @@ if "intentos_test" not in st.session_state:
 if "error_ayuda" not in st.session_state:
     st.session_state.error_ayuda = False
 
+if "error_tipo" not in st.session_state:
+    st.session_state.error_tipo = None
+
+
 # -----------------------------
 # FUNCIONES
 # -----------------------------
@@ -186,12 +190,9 @@ def pista():
             if st.session_state.pistas_usadas == 0:
                 st.sidebar.info(random.choice(lista))
                 st.session_state.pistas_usadas = 1
-                st.session_state.trampas += 1
-            else:
-                st.sidebar.warning("Ya has usado tu pista")
 
-        elif perfil == "D":
-            st.sidebar.info(random.choice(lista))
+                if st.session_state.error_tipo != "pistas":
+                    st.session_state.trampas += 1
 
        
 # -----------------------------
@@ -214,6 +215,8 @@ def mostrar_normas():
 # -----------------------------
 # -------- ERROR ALEATORIO DE AYUDA --------
 def botones_trampa():
+
+    # -------- ERROR ALEATORIO --------
     prob = {
         "A": 0.0,
         "B": 0.15,
@@ -230,43 +233,41 @@ def botones_trampa():
                 "whatsapp"
             ])
             st.sidebar.success("⚠️ Error del sistema: ayuda desbloqueada temporalmente")
-    
 
-        st.sidebar.divider()
-        st.sidebar.subheader("⚠️ Opciones adicionales")
+    # -------- SIEMPRE SE MUESTRA --------
+    st.sidebar.divider()
+    st.sidebar.subheader("⚠️ Opciones adicionales")
 
-        if st.sidebar.button("📚 Consultar materiales", key=f"mat_{st.session_state.fase}"):
+    # -------- MATERIALES --------
+    if st.sidebar.button("📚 Consultar materiales", key=f"mat_{st.session_state.fase}"):
 
-            st.markdown(
-                '[Abrir campus](https://derecho.cv.uma.es/course/view.php?id=4646)',
-                unsafe_allow_html=True
-            )
+        st.markdown('[Abrir campus](https://derecho.cv.uma.es/course/view.php?id=4646)', unsafe_allow_html=True)
 
-            if perfil != "A" and not st.session_state.error_ayuda:
-                st.session_state.trampas += 1
-                st.sidebar.warning("Has mejorado tu probabilidad de éxito")
+        if perfil != "A" and st.session_state.error_tipo != "materiales":
+            st.session_state.trampas += 1
+            st.sidebar.warning("Has mejorado tu probabilidad de éxito")
 
-        if st.sidebar.button("🤝 Pedir ayuda por WhatsApp", key=f"wa_{st.session_state.fase}"):
+    # -------- WHATSAPP --------
+    if st.sidebar.button("🤝 Pedir ayuda por WhatsApp", key=f"wa_{st.session_state.fase}"):
 
-            st.sidebar.info("Contactando con otro candidato...")
-            st.markdown(
-                '[Abrir WhatsApp](https://wa.me/)',
-                unsafe_allow_html=True
-            )
+        st.sidebar.info("Contactando con otro candidato...")
+        st.markdown('[Abrir WhatsApp](https://wa.me/)', unsafe_allow_html=True)
 
-            if perfil != "A" and not st.session_state.error_ayuda:
-                st.session_state.trampas += 1
-                st.sidebar.warning("Has mejorado tu probabilidad de éxito")
+        if perfil != "A" and st.session_state.error_tipo != "whatsapp":
+            st.session_state.trampas += 1
+            st.sidebar.warning("Has mejorado tu probabilidad de éxito")
 
-        if st.sidebar.button("👨‍🏫 Ayuda del profesor", key=f"prof_{st.session_state.fase}"):
+    # -------- PROFESOR --------
+    if st.sidebar.button("👨‍🏫 Ayuda del profesor", key=f"prof_{st.session_state.fase}"):
 
-            reproducir_audio_auto("profesor.mp3")
+        reproducir_audio_auto("profesor.mp3")
 
-            if perfil != "A" and not st.session_state.error_ayuda:
-                st.session_state.trampas += 1
-                st.sidebar.warning("Has mejorado tu probabilidad de éxito")
+        if perfil != "A":
+            st.session_state.trampas += 1
+            st.sidebar.warning("Has mejorado tu probabilidad de éxito")
 
-        pista()
+    # 👉 IMPORTANTE
+    pista()
 
 # -----------------------------
 # INICIO
