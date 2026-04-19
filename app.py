@@ -538,12 +538,22 @@ if st.session_state.fase == 2:
 
             else:
                 st.session_state.intentos_test += 1
-
+                guardar_datos({
+                    "id": st.session_state.get("nombre", "anonimo"),
+                    "perfil": perfil,
+                    "fase": st.session_state.fase,
+                    "trampas": st.session_state.get("trampas", 0),
+                    "pistas": st.session_state.get("pistas_usadas", 0),
+                    "intentos_test": st.session_state.get("intentos_test", 0),
+                    "resultado": "fallo_test"
+                })
+                
                 if st.session_state.intentos_test > 1 and perfil != "A":
                     st.session_state.trampas += 1
                     st.warning("⚠️ Reintentar mejora tus probabilidades de éxito")
 
                 st.error("Respuestas incorrectas. Debe responder correctamente a todas.")
+
 
 # -----------------------------
 # FASE 3 — CIFRADO
