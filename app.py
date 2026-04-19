@@ -140,11 +140,7 @@ def pista():
             st.sidebar.success("⚠️ Atención: pista desbloqueada por error. Puede ver la pista debajo de este aviso")
             
 
-        # 👉 Si está bloqueado
-        if bloqueado:
-            st.sidebar.warning("⚠️ Acceso a pista no permitido...")
-            time.sleep(0.5)
-            st.sidebar.success("⚠️ Atención: pista desbloqueada por error. Puede ver la pista debajo de este aviso")
+        
             
 
         # ---------- FASE 1 ----------
