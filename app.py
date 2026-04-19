@@ -41,6 +41,12 @@ if "trampas" not in st.session_state:
 if "guardado" not in st.session_state:
     st.session_state.guardado = False
 
+if "intentos_test" not in st.session_state:
+    st.session_state.intentos_test = 0
+
+if "error_ayuda" not in st.session_state:
+    st.session_state.error_ayuda = False
+
 # -----------------------------
 # FUNCIONES
 # -----------------------------
@@ -195,6 +201,11 @@ def mostrar_normas():
 # -----------------------------
 def botones_trampa():
 
+    if not st.session_state.error_ayuda:
+    if perfil in ["B","C","D"] and random.random() < 0.2:
+        st.session_state.error_ayuda = True
+        st.sidebar.success("⚠️ Error del sistema: ayudas desbloqueadas temporalmente")
+
     st.sidebar.divider()
     st.sidebar.subheader("⚠️ Opciones adicionales")
 
@@ -202,7 +213,7 @@ def botones_trampa():
 
         reproducir_audio_auto("materiales.mp3")
 
-        if perfil != "A":
+        if perfil != "A" and not st.session_state.error_ayuda:
             st.session_state.trampas += 1
             st.sidebar.warning("Has mejorado tu probabilidad de éxito")
 
@@ -214,7 +225,7 @@ def botones_trampa():
             unsafe_allow_html=True
         )
 
-        if perfil != "A":
+        if perfil != "A" and not st.session_state.error_ayuda:
             st.session_state.trampas += 1
             st.sidebar.warning("Has mejorado tu probabilidad de éxito")
 
@@ -222,7 +233,7 @@ def botones_trampa():
 
         reproducir_audio_auto("profesor.mp3")
 
-        if perfil != "A":
+        if perfil != "A" and not st.session_state.error_ayuda:
             st.session_state.trampas += 1
             st.sidebar.warning("Has mejorado tu probabilidad de éxito")
 
@@ -283,6 +294,7 @@ if st.session_state.fase == 1:
         else:
             if r.strip() == str(sol):
                 st.session_state.fase = 2
+                st.session_state.error_ayuda = False
                 st.session_state.pistas_usadas = 0
             else:
                 st.error("Incorrecto")
@@ -488,10 +500,19 @@ if st.session_state.fase == 2:
 
         if perfil == "C" and random.random() < 0.3:
             st.warning("⚠️ Error al enviar respuestas. Reintenta.")
+
         else:
             if all(correctas):
                 st.session_state.fase = 3
+                st.session_state.error_ayuda = False
+
             else:
+                st.session_state.intentos_test += 1
+
+                if st.session_state.intentos_test > 1 and perfil != "A":
+                    st.session_state.trampas += 1
+                    st.warning("⚠️ Reintentar mejora tus probabilidades de éxito")
+
                 st.error("Respuestas incorrectas. Debe responder correctamente a todas.")
 
 # -----------------------------
@@ -527,6 +548,7 @@ if st.session_state.fase == 3:
         else:
             if solucion in r.upper():
                 st.session_state.fase = 4
+                st.session_state.error_ayuda = False
             else:
                 st.error("Incorrecto")
 
@@ -564,6 +586,7 @@ if st.session_state.fase == 4:
 
             if r.strip() == "44":
                 st.session_state.fase = 5
+                st.session_state.error_ayuda = False
             else:
                 st.error("Incorrecto")
 
