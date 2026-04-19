@@ -213,59 +213,60 @@ def mostrar_normas():
 # BOTONES TRAMPA (SIDEBAR)
 # -----------------------------
 # -------- ERROR ALEATORIO DE AYUDA --------
-prob = {
-    "A": 0.0,
-    "B": 0.15,
-    "C": 0.35,
-    "D": 0.6
-}
+def botones_trampa():
+    prob = {
+        "A": 0.0,
+        "B": 0.15,
+        "C": 0.30,
+        "D": 0.65
+    }
 
-if not st.session_state.error_ayuda:
-    if random.random() < prob[perfil]:
-        st.session_state.error_ayuda = True
-        st.session_state.error_tipo = random.choice([
-            "pistas",
-            "materiales",
-            "whatsapp"
-        ])
-        st.sidebar.success("⚠️ Error del sistema: ayuda desbloqueada temporalmente")
+    if not st.session_state.error_ayuda:
+        if random.random() < prob[perfil]:
+            st.session_state.error_ayuda = True
+            st.session_state.error_tipo = random.choice([
+                "pistas",
+                "materiales",
+                "whatsapp"
+            ])
+            st.sidebar.success("⚠️ Error del sistema: ayuda desbloqueada temporalmente")
     
 
-    st.sidebar.divider()
-    st.sidebar.subheader("⚠️ Opciones adicionales")
+        st.sidebar.divider()
+        st.sidebar.subheader("⚠️ Opciones adicionales")
 
-    if st.sidebar.button("📚 Consultar materiales", key=f"mat_{st.session_state.fase}"):
+        if st.sidebar.button("📚 Consultar materiales", key=f"mat_{st.session_state.fase}"):
 
-        st.markdown(
-            '[Abrir campus](https://derecho.cv.uma.es/course/view.php?id=4646)',
-            unsafe_allow_html=True
-        )
+            st.markdown(
+                '[Abrir campus](https://derecho.cv.uma.es/course/view.php?id=4646)',
+                unsafe_allow_html=True
+            )
 
-        if perfil != "A" and not st.session_state.error_ayuda:
-            st.session_state.trampas += 1
-            st.sidebar.warning("Has mejorado tu probabilidad de éxito")
+            if perfil != "A" and not st.session_state.error_ayuda:
+                st.session_state.trampas += 1
+                st.sidebar.warning("Has mejorado tu probabilidad de éxito")
 
-    if st.sidebar.button("🤝 Pedir ayuda por WhatsApp", key=f"wa_{st.session_state.fase}"):
+        if st.sidebar.button("🤝 Pedir ayuda por WhatsApp", key=f"wa_{st.session_state.fase}"):
 
-        st.sidebar.info("Contactando con otro candidato...")
-        st.markdown(
-            '[Abrir WhatsApp](https://wa.me/)',
-            unsafe_allow_html=True
-        )
+            st.sidebar.info("Contactando con otro candidato...")
+            st.markdown(
+                '[Abrir WhatsApp](https://wa.me/)',
+                unsafe_allow_html=True
+            )
 
-        if perfil != "A" and not st.session_state.error_ayuda:
-            st.session_state.trampas += 1
-            st.sidebar.warning("Has mejorado tu probabilidad de éxito")
+            if perfil != "A" and not st.session_state.error_ayuda:
+                st.session_state.trampas += 1
+                st.sidebar.warning("Has mejorado tu probabilidad de éxito")
 
-    if st.sidebar.button("👨‍🏫 Ayuda del profesor", key=f"prof_{st.session_state.fase}"):
+        if st.sidebar.button("👨‍🏫 Ayuda del profesor", key=f"prof_{st.session_state.fase}"):
 
-        reproducir_audio_auto("profesor.mp3")
+            reproducir_audio_auto("profesor.mp3")
 
-        if perfil != "A" and not st.session_state.error_ayuda:
-            st.session_state.trampas += 1
-            st.sidebar.warning("Has mejorado tu probabilidad de éxito")
+            if perfil != "A" and not st.session_state.error_ayuda:
+                st.session_state.trampas += 1
+                st.sidebar.warning("Has mejorado tu probabilidad de éxito")
 
-    pista()
+        pista()
 
 # -----------------------------
 # INICIO
