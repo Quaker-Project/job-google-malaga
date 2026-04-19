@@ -315,17 +315,34 @@ if st.session_state.fase == 1:
         ])
 
     seq, sol = st.session_state.secuencia
+    seq_mostrar = list(seq)
 
-    if perfil == "D":
+# -------- DIFERENCIACIÓN POR PERFIL --------
+    if perfil == "A":
+    # Fácil → no ocultas nada
+        pass
+
+    elif perfil == "B":
+    # Medio → ocultas 1 elemento
+        seq_mostrar[2] = "?"
+
+    elif perfil == "C":
+    # Difícil → ocultas 2 elementos
+        seq_mostrar[2] = "?"
+        seq_mostrar[-1] = "?"
+
+    elif perfil == "D":
+    # Muy difícil → ocultas varios
         if st.session_state.subperfil_D == "dificil":
-            seq = [seq[0], "?", seq[2], seq[3], "?"]
+            seq_mostrar = [seq[0], "?", seq[2], "?", "?"]
         else:
-            seq = [seq[0], seq[1], "?", seq[3], "?"]
+            seq_mostrar = [seq[0], seq[1], "?", seq[3], "?"]
 
-    if perfil == "C":
-        seq_mostrar = seq.copy()
-        if "?" not in seq_mostrar:
-            seq_mostrar.append("?")
+# -------- MOSTRAR SIEMPRE --------
+    st.markdown("### Secuencia")
+    st.markdown(" → ".join(map(str, seq_mostrar)))
+
+    
 
 # 👉 Formato visual tipo psicotécnico
         st.markdown("### Secuencia")
