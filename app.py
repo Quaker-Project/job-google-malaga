@@ -238,8 +238,8 @@ def botones_trampa():
     prob = {
         "A": 0.0,
         "B": 0.15,
-        "C": 0.30,
-        "D": 0.65
+        "C": 0.25,
+        "D": 0.55
     }
 
     if not st.session_state.error_ayuda:
