@@ -416,14 +416,14 @@ if st.session_state.fase == 2:
         r6 = q("6. La segunda Ley de Tarde enunca que:'",
                ["Las modas nuevas sustituyen a las antiguas",
                 "El delito se aprende por observación mediática del comportamiento",
-                "Cohen",
+                "Los tipos de arma de fuego empleadas dependen del contexto social",
                 "Los inferiores copian el comportamiento de los superiores"], "c6")
 
-        r7 = q("6. La segunda Ley de Tarde enunca que:'",
-               ["Las modas nuevas sustituyen a las antiguas",
-                "El delito se aprende por observación mediática del comportamiento",
-                "Cohen",
-                "Los inferiores copian el comportamiento de los superiores"], "c7")
+        r7 = q("7. ¿Cuál de las siguientes opciones es una crítica a la teoría de la asociación diferencial:",
+               ["No tiene en cuenta la motivación del sujeto para cometer el delito",
+                "Las definiciones favorables y desfavorables del delito son muy difíciles de medir",
+                "No tiene en cuenta que el delito puede también aprenderse por imitación",
+                "Ninguna de las anteriores es una crítica"], "c7")
 
         correctas = [
             r1.startswith("Desarrollo de la conciencia moral"),
@@ -432,6 +432,7 @@ if st.session_state.fase == 2:
             r4.startswith("Shaw"),
             r5.startswith("Ivan"),
             r6.startswith("Los inferiores copian el comportamiento de los superiores"),
+            r7.startswith("Las definiciones favorables y desfavorables del delito son muy difíciles de medir")
             
         ]
 
