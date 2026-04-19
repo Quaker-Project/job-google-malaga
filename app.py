@@ -333,7 +333,7 @@ if st.session_state.fase == 1:
 
         seq_mostrar = list(seq)
 
-    # 🔒 Generar solo una vez
+        # 🔒 Generar solo una vez
         if st.session_state.indices_ocultos is None:
 
             posibles = list(range(1, len(seq)-1))
@@ -348,9 +348,9 @@ if st.session_state.fase == 1:
 
             st.session_state.indices_ocultos = indices
 
-    # 👉 usar siempre los mismos
-     for i in st.session_state.indices_ocultos:
-        seq_mostrar[i] = "?"
+        # 👉 usar siempre los mismos
+       for i in st.session_state.indices_ocultos:
+           seq_mostrar[i] = "?"
 
     # -------- MOSTRAR --------
     st.markdown("### Secuencia")
