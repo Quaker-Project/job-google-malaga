@@ -16,6 +16,18 @@ st.set_page_config(page_title="Proceso de selección", layout="centered")
 
 st.title("💻 Google Málaga — Proceso de selección")
 
+import streamlit.components.v1 as components
+
+components.html("""
+<script>
+document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+        window.parent.postMessage("tab_hidden", "*");
+    }
+});
+</script>
+""", height=0)
+
 # -----------------------------
 # ESTADO
 # -----------------------------
