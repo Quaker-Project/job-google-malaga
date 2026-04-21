@@ -79,7 +79,7 @@ if "last_event" not in st.session_state:
 # FUNCIONES
 # -----------------------------
 def tiempo():
-    tiempos = {"A":1800,"B":1500,"C":1200,"D":900}
+    tiempos = {"A":1600,"B":1400,"C":1200,"D":900}
     restante = int(tiempos[perfil] - (time.time() - st.session_state.start))
 
     minutos = restante // 60
