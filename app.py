@@ -406,6 +406,7 @@ if st.session_state.fase == 1:
                 st.session_state.error_ayuda = False
                 st.session_state.pistas_usadas = 0
                 st.session_state.indices_ocultos = None
+                reproducir_audio_auto("fase_ok.mp3")
             else:
                 st.error("Incorrecto")
 
@@ -615,6 +616,7 @@ if st.session_state.fase == 2:
             if all(correctas):
                 st.session_state.fase = 3
                 st.session_state.error_ayuda = False
+                reproducir_audio_auto("fase_ok.mp3")
 
             else:
                 st.session_state.intentos_test += 1
@@ -670,6 +672,7 @@ if st.session_state.fase == 3:
             if solucion in r.upper():
                 st.session_state.fase = 4
                 st.session_state.error_ayuda = False
+                reproducir_audio_auto("fase_ok.mp3")
             else:
                 st.error("Incorrecto")
 
