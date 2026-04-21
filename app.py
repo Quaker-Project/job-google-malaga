@@ -88,8 +88,23 @@ def tiempo():
     st.markdown(f"⏱️ **Tiempo restante: {minutos:02d}:{segundos:02d}**")
 
     if restante <= 0:
-        st.error("Tiempo agotado")
-        st.stop()
+
+    if not st.session_state.guardado:
+
+        guardar_datos({
+            "id": st.session_state.get("nombre", "anonimo"),
+            "perfil": perfil,
+            "fase": st.session_state.fase,
+            "trampas": st.session_state.get("trampas", 0),
+            "pistas": st.session_state.get("pistas_usadas", 0),
+            "intentos_test": st.session_state.get("intentos_test", 0),
+            "resultado": "timeout"
+        })
+
+        st.session_state.guardado = True
+
+    st.error("⏱️ Tiempo agotado — proceso finalizado")
+    st.stop()
 
 def abandonar():
     if st.button("❌ Abandonar proceso", key=f"abandonar_{st.session_state.fase}"):
