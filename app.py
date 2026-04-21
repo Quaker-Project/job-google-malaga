@@ -89,22 +89,22 @@ def tiempo():
 
     if restante <= 0:
 
-    if not st.session_state.guardado:
+        if not st.session_state.guardado:
 
-        guardar_datos({
-            "id": st.session_state.get("nombre", "anonimo"),
-            "perfil": perfil,
-            "fase": st.session_state.fase,
-            "trampas": st.session_state.get("trampas", 0),
-            "pistas": st.session_state.get("pistas_usadas", 0),
-            "intentos_test": st.session_state.get("intentos_test", 0),
-            "resultado": "timeout"
-        })
+            guardar_datos({
+                "id": st.session_state.get("nombre", "anonimo"),
+                "perfil": perfil,
+                "fase": st.session_state.fase,
+                "trampas": st.session_state.get("trampas", 0),
+                "pistas": st.session_state.get("pistas_usadas", 0),
+                "intentos_test": st.session_state.get("intentos_test", 0),
+                "resultado": "timeout"
+            })
 
-        st.session_state.guardado = True
+            st.session_state.guardado = True
 
-    st.error("⏱️ Tiempo agotado — proceso finalizado")
-    st.stop()
+        st.error("⏱️ Tiempo agotado — proceso finalizado")
+        st.stop()
 
 def abandonar():
     if st.button("❌ Abandonar proceso", key=f"abandonar_{st.session_state.fase}"):
