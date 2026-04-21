@@ -15,6 +15,16 @@ def guardar_datos(data):
 st.set_page_config(page_title="Proceso de selección", layout="centered")
 
 st.title("💻 Google Málaga — Proceso de selección")
+st.markdown("""
+Has sido seleccionado para participar en un proceso de selección de Google.
+
+🏆 Recompensa:
+- Prácticas: 2800€/mes  
+- Contrato posterior: 3400€/mes  
+- Bonus: SPA para dos personas  
+
+Tu objetivo es superar las pruebas.
+""")
 
 # -----------------------------
 # ESTADO
