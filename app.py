@@ -16,7 +16,7 @@ st.set_page_config(page_title="Proceso de selección", layout="centered")
 
 st.title("💻 Google Málaga — Proceso de selección")
 st.markdown("""
-Has sido seleccionado para participar en un proceso de selección de Google.
+Ha decidido participar en un proceso de selección de Google.
 
 🏆 Recompensa:
 - Prácticas: 2800€/mes  
